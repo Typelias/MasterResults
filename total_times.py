@@ -1,26 +1,31 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-x = np.array([1, 2, 3, 4, 5])
+from utils import getAvgForModels
 
-totalTimes = [2802.090, 152.060, 156.080, 145.343, 386.165]
-avgTimes = [2335.108, 126.716, 130.066, 121.119, 1988.471]
+models = ['silero', 'silero_server', 'brain', 's2t']
 
+x = np.array([x for x in range(len(models)+1)][1:])
 
-plt.figure(figsize=(10, 7))
+avgTime = getAvgForModels(models, 'avgTime')
+totalTime = getAvgForModels(models, 'totalTime')
 
-plt.subplot(1, 2, 1)
-plt.bar(x, totalTimes, label='Total Time', color='#ff0000')
-plt.xticks(x, ['silero oculus', 'silero server', 'sb', 's2t', 'kaldi' ], rotation=15, ha="right")
-plt.xlabel('Model')
-plt.ylabel('Time (s)')
-plt.title('Time to compleete Benchmark')
-
-plt.subplot(1, 2, 2)
-plt.bar(x, avgTimes, label='Average Time', color='#00ff00')
-plt.xticks(x, ['silero oculus', 'silero server', 'sb', 's2t', 'kaldi' ], rotation=15, ha="right")
-plt.xlabel('Model')
+plt.figure(figsize=(5, 10))
+plt.bar(x, avgTime, color='g', label='Mean')
+plt.xticks(x, models)
 plt.ylabel('Time (ms)')
-plt.title('Average Time per Command')
+plt.xlabel('Model')
+plt.yticks([x for x in range(0, 3600, 100)])
+plt.title('Mean Time for all commands')
+plt.savefig('Time/time_all_commands.png')
 
-plt.savefig('total_times.png')
+plt.clf()
+
+plt.bar(x, totalTime/1000, color='g', label='Mean')
+plt.xticks(x, models)
+plt.ylabel('Time (s)')
+plt.xlabel('Model')
+plt.yticks([x for x in range(0, 4300, 100)])
+
+plt.title('Total Time for benchmark')
+plt.savefig('Time/time_benchmark.png')
