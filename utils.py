@@ -5,7 +5,8 @@ import numpy as np
 
 
 def getData(modelname):
-    resp = requests.get("http://typelias.se:7575/fetch/" + modelname + ".json")
+    # print(modelname)
+    resp = requests.get("http://localhost:7575/fetch/" + modelname + ".json")
     data = resp.json()
     return data
 
